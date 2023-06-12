@@ -27,9 +27,10 @@ const CameraScreen = () => {
   };
 
   const lerQRCode = async ({ data }) => {
+  
     setQRCodeData(data);
   
-    if (data === '1') {
+    if (data === 'https://me-qr.com/PmDzTdHN') {
       try {
         const soundObject = new Audio.Sound();
         await soundObject.loadAsync(require('../../../assets/audio1.mp3'));
@@ -64,12 +65,19 @@ const CameraScreen = () => {
   };
 
   const handleBarCodeScanned = ({ type, data }) => {
+    try{
     if (!cameraRef.current) {
+    
       return;
     }
 
-    cameraRef.current.pauseScanning();
+    //cameraRef.current.pauseScanning();
+   
     lerQRCode({ data });
+  }
+  catch(error){
+    console.log(error);
+  }
   };
 
   return (
