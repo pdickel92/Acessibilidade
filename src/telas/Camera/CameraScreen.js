@@ -5,13 +5,14 @@ import { Audio } from 'expo-av';
 import HapticFeedback from 'react-native-haptic-feedback';
 import { useNavigation } from '@react-navigation/native';
 
-
 const CameraScreen = () => {
   const [permissao, setPermissao] = useState(null);
   const [cameraVisivel, setCameraVisivel] = useState(false);
   const [qrCodeData, setQRCodeData] = useState('');
   const [qrCodeInvalido, setQRCodeInvalido] = useState(false);
   const navigation = useNavigation();
+  const [audioExecutado, setAudioExecutado] = useState(false);
+
 
   const cameraRef = useRef(null);
 
@@ -27,57 +28,66 @@ const CameraScreen = () => {
   };
 
   const lerQRCode = async ({ data }) => {
-  
     setQRCodeData(data);
   
-    if (data === 'https://me-qr.com/PmDzTdHN') {
+    if (data === 'http://audio1') {    //Executa audio1 se o qrcode for igual a http://audio1
       try {
-        const soundObject = new Audio.Sound();
-        await soundObject.loadAsync(require('../../../assets/audio1.mp3'));
-        await soundObject.playAsync();
+        if (!audioExecutado) {
+          const soundObject = new Audio.Sound();
+          await soundObject.loadAsync(require('../../../assets/audio1.mp3'));
+          await soundObject.playAsync();
+          setAudioExecutado(true);
+        }
       } catch (error) {
         console.log(error);
       }
   
       HapticFeedback.trigger('impactMedium');
-    } else if (data === '2') {
+    } else if (data === 'http://audio2') {    //Executa audio2 se o qrcode for igual a http://audio2
       try {
-        const soundObject = new Audio.Sound();
-        await soundObject.loadAsync(require('../../../assets/audio2.mp3'));
-        await soundObject.playAsync();
+        if (!audioExecutado) {
+          const soundObject = new Audio.Sound();
+          await soundObject.loadAsync(require('../../../assets/audio2.mp3'));
+          await soundObject.playAsync();
+          setAudioExecutado(true);
+        }
       } catch (error) {
         console.log(error);
       }
   
-
       HapticFeedback.trigger('impactMedium');
-    }  else if (data === '3') {
+    } else if (data === 'http://audio3') {    //Executa audio3 se o qrcode for igual a http://audio3
       try {
-        navigation.navigate('InstrucaoScreen');
-      }catch (error) {
+        if (!audioExecutado) {
+          const soundObject = new Audio.Sound();
+          await soundObject.loadAsync(require('../../../assets/audio3.mp3'));
+          await soundObject.playAsync();
+          setAudioExecutado(true);
+        }
+      } catch (error) {
         console.log(error);
       }
+      
       HapticFeedback.trigger('impactMedium');
-
     } else {
       setQRCodeInvalido(true);
     }
+  
+    // Retornar para a tela HomeScreen quando um QR code for lido
+    navigation.navigate('HomeScreen');
   };
+  
 
   const handleBarCodeScanned = ({ type, data }) => {
-    try{
-    if (!cameraRef.current) {
-    
-      return;
-    }
+    try {
+      if (!cameraRef.current) {
+        return;
+      }
 
-    //cameraRef.current.pauseScanning();
-   
-    lerQRCode({ data });
-  }
-  catch(error){
-    console.log(error);
-  }
+      lerQRCode({ data });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
