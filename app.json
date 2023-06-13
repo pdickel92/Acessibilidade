@@ -1,26 +1,23 @@
 {
   "expo": {
-    "name": "projeto4",
-    "slug": "projeto4",
+    "name": "Acessibilidade",
+    "slug": "Acessibilidade",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/cegoicon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/inicio.gif",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assets": [
-      "../assets/audio1.mp3"
-    ],
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "Permita o acesso à câmera para tirar fotos e gravar vídeos.",
+        "NSCameraUsageDescription": "Permita o acesso à câmera.",
         "NSPhotoLibraryUsageDescription":"Permissão.",
         "NSPhotoLibraryAddUsageDescription": "Permissão"
       }
