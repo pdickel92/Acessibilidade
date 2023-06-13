@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/telas/Home/HomeScreen';
 import CameraScreen from './src/telas/Camera/CameraScreen';
-import InstrucaoScreen from './src/telas/Instrucao/InstrucaoScreen';
+
 
 
 const StackNavigator = createStackNavigator()
@@ -15,7 +15,6 @@ export default function App() {
       <StackNavigator.Navigator initialRouteName='HomeScreen'>
       <StackNavigator.Screen name="HomeScreen" component={HomeScreen} />
       <StackNavigator.Screen name="CameraScreen" component={CameraScreen} />
-      <StackNavigator.Screen name="InstrucaoScreen" component={InstrucaoScreen} />
 
       </StackNavigator.Navigator>
     </NavigationContainer>

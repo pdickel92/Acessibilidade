@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Vibration } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Audio } from 'expo-av';
 import HapticFeedback from 'react-native-haptic-feedback';
 import { useNavigation } from '@react-navigation/native';
+import * as Speech from 'expo-speech';
 
 const CameraScreen = () => {
   const [permissao, setPermissao] = useState(null);
-  const [cameraVisivel, setCameraVisivel] = useState(false);
+  const [cameraVisivel, setCameraVisivel] = useState(true);
   const [qrCodeData, setQRCodeData] = useState('');
   const [qrCodeInvalido, setQRCodeInvalido] = useState(false);
   const navigation = useNavigation();
   const [audioExecutado, setAudioExecutado] = useState(false);
-
 
   const cameraRef = useRef(null);
 
@@ -23,14 +23,16 @@ const CameraScreen = () => {
     })();
   }, []);
 
-  const abrirCamera = () => {
-    setCameraVisivel(true);
-  };
+  useEffect(() => {
+    if (cameraVisivel) {
+      Speech.speak('Câmera está aberta', { language: 'pt' });
+    }
+  }, [cameraVisivel]);
 
   const lerQRCode = async ({ data }) => {
     setQRCodeData(data);
-  
-    if (data === 'http://audio1') {    //Executa audio1 se o qrcode for igual a http://audio1
+
+    if (data === 'http://audio1') {
       try {
         if (!audioExecutado) {
           const soundObject = new Audio.Sound();
@@ -41,9 +43,10 @@ const CameraScreen = () => {
       } catch (error) {
         console.log(error);
       }
-  
+
       HapticFeedback.trigger('impactMedium');
-    } else if (data === 'http://audio2') {    //Executa audio2 se o qrcode for igual a http://audio2
+      Vibration.vibrate();
+    } else if (data === 'http://audio2') {
       try {
         if (!audioExecutado) {
           const soundObject = new Audio.Sound();
@@ -54,9 +57,10 @@ const CameraScreen = () => {
       } catch (error) {
         console.log(error);
       }
-  
+
       HapticFeedback.trigger('impactMedium');
-    } else if (data === 'http://audio3') {    //Executa audio3 se o qrcode for igual a http://audio3
+      Vibration.vibrate();
+    } else if (data === 'http://audio3') {
       try {
         if (!audioExecutado) {
           const soundObject = new Audio.Sound();
@@ -67,16 +71,15 @@ const CameraScreen = () => {
       } catch (error) {
         console.log(error);
       }
-      
+
       HapticFeedback.trigger('impactMedium');
+      Vibration.vibrate();
     } else {
       setQRCodeInvalido(true);
     }
-  
-    // Retornar para a tela HomeScreen quando um QR code for lido
+
     navigation.navigate('HomeScreen');
   };
-  
 
   const handleBarCodeScanned = ({ type, data }) => {
     try {
@@ -92,11 +95,7 @@ const CameraScreen = () => {
 
   return (
     <View style={styles.container}>
-      {!cameraVisivel ? (
-        <TouchableOpacity style={styles.button} onPress={abrirCamera}>
-          <Text style={styles.buttonText}>Abrir Câmera</Text>
-        </TouchableOpacity>
-      ) : (
+      {cameraVisivel ? (
         <View style={styles.cameraContainer}>
           <BarCodeScanner
             ref={cameraRef}
@@ -109,6 +108,10 @@ const CameraScreen = () => {
             </View>
           )}
         </View>
+      ) : (
+        <TouchableOpacity style={styles.button} onPress={() => setCameraVisivel(true)}>
+          <Text style={styles.buttonText}>Abrir Câmera</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -152,4 +155,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CameraScreen;
+export default CameraScreen;
