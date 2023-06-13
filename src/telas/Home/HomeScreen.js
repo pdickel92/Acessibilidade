@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
 import { BarCodeScanner } from 'react-native-camera';
 
+
+
 const HomeScreen = () => {
   const navigation = useNavigation();
 

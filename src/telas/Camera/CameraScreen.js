@@ -11,9 +11,9 @@ const CameraScreen = () => {
   const [cameraVisivel, setCameraVisivel] = useState(true);
   const [qrCodeData, setQRCodeData] = useState('');
   const [qrCodeInvalido, setQRCodeInvalido] = useState(false);
-  const navigation = useNavigation();
   const [audioExecutado, setAudioExecutado] = useState(false);
-
+  const [vibrar, setVibrar] = useState(false); // Novo estado para controlar a vibração
+  const navigation = useNavigation();
   const cameraRef = useRef(null);
 
   useEffect(() => {
@@ -76,17 +76,41 @@ const CameraScreen = () => {
       Vibration.vibrate();
     } else {
       setQRCodeInvalido(true);
+      setVibrar(true);
     }
-
     navigation.navigate('HomeScreen');
   };
+ 
+
+  useEffect(() => {
+    if (vibrar) {
+      const interval = setInterval(() => {
+        Vibration.vibrate([50,50]);
+      }, 100);
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [vibrar]);
+
+  useEffect(() => {
+    if (qrCodeInvalido) {
+      const timeout = setTimeout(() => {
+        setQRCodeInvalido(false);
+        setVibrar(false);
+        navigation.navigate('HomeScreen');
+      }, 1000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [qrCodeInvalido]);
 
   const handleBarCodeScanned = ({ type, data }) => {
     try {
       if (!cameraRef.current) {
         return;
       }
-
       lerQRCode({ data });
     } catch (error) {
       console.log(error);
@@ -95,6 +119,11 @@ const CameraScreen = () => {
 
   return (
     <View style={styles.container}>
+      {qrCodeInvalido && (
+        <View style={styles.errorMessageContainer}>
+          <Text style={styles.errorMessage}>QR Code inválido para este app</Text>
+        </View>
+      )}
       {cameraVisivel ? (
         <View style={styles.cameraContainer}>
           <BarCodeScanner
@@ -102,11 +131,6 @@ const CameraScreen = () => {
             onBarCodeScanned={handleBarCodeScanned}
             style={StyleSheet.absoluteFillObject}
           />
-          {qrCodeInvalido && (
-            <View style={styles.errorMessageContainer}>
-              <Text style={styles.errorMessage}>QR Code inválido para este app</Text>
-            </View>
-          )}
         </View>
       ) : (
         <TouchableOpacity style={styles.button} onPress={() => setCameraVisivel(true)}>
@@ -155,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CameraScreen;
+export default CameraScreen;
