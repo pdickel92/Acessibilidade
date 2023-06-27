@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Dimensions, Vibration } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Speech from 'expo-speech';
-import { BarCodeScanner } from 'react-native-camera';
+
 
 
 

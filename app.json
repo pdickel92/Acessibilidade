@@ -7,7 +7,7 @@
     "icon": "./assets/cegoicon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/inicio.gif",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
