@@ -80,13 +80,70 @@ export default function App() {
       } catch (error) {
         console.log(error);
       }
-
-      Vibration.vibrate(35);
     } else if (data === 'http://audio3') {
       try {
         if (!audioExecutado) {
           const audio3 = require('../../../assets/audio3.mp3');
           const { sound } = await Audio.Sound.createAsync(audio3);
+          setSoundObject(sound);
+          await sound.playAsync();
+          setAudioExecutado(true);
+
+          sound.setOnPlaybackStatusUpdate((status) => {
+            if (status.didJustFinish) {
+              setScanned(false);
+              setAudioExecutado(false);
+            }
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (data === 'http://audio4') {
+      try {
+        if (!audioExecutado) {
+          const audio4 = require('../../../assets/audio4.mp3');
+          const { sound } = await Audio.Sound.createAsync(audio4);
+          setSoundObject(sound);
+          await sound.playAsync();
+          setAudioExecutado(true);
+
+          sound.setOnPlaybackStatusUpdate((status) => {
+            if (status.didJustFinish) {
+              setScanned(false);
+              setAudioExecutado(false);
+            }
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (data === 'http://audio5') {
+      try {
+        if (!audioExecutado) {
+          const audio5 = require('../../../assets/audio5.mp3');
+          const { sound } = await Audio.Sound.createAsync(audio5);
+          setSoundObject(sound);
+          await sound.playAsync();
+          setAudioExecutado(true);
+
+          sound.setOnPlaybackStatusUpdate((status) => {
+            if (status.didJustFinish) {
+              setScanned(false);
+              setAudioExecutado(false);
+            }
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+      Vibration.vibrate(35);
+    } else if (data === 'http://audio6') {
+      try {
+        if (!audioExecutado) {
+          const audio6 = require('../../../assets/audio6.mp3');
+          const { sound } = await Audio.Sound.createAsync(audio6);
           setSoundObject(sound);
           await sound.playAsync();
           setAudioExecutado(true);

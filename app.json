@@ -20,7 +20,8 @@
         "NSCameraUsageDescription": "Permita o acesso à câmera.",
         "NSPhotoLibraryUsageDescription": "Permissão.",
         "NSPhotoLibraryAddUsageDescription": "Permissão"
-      }
+      },
+      "bundleIdentifier": "com.petersondickel.Acessibilidade"
     },
     "android": {
       "adaptiveIcon": {
